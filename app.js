@@ -21,9 +21,9 @@ app.get("/", (req, res) => {
 	});
 });
 
-const PORT = process.env.PORT || 8080;
+const { PORT, DB_CONNECTION_STRING } = process.env;
 mongoose
-	.connect("mongodb+srv://minhaz:minhaz540@cluster0.h9bja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {
+	.connect(DB_CONNECTION_STRING, {
 		useNewUrlParser: true,
 	})
 	.then(() => {

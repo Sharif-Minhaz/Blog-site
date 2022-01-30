@@ -16,7 +16,7 @@ exports.signupPostController = async (req, res, next) => {
 			email,
 			password: hashedPassword,
 		});
-        
+
 		let createdUser = await user.save();
 		// res.redirect("/auth/login")
 		res.render("pages/auth/signup", { title: "Blog | Signup" });
@@ -26,7 +26,18 @@ exports.signupPostController = async (req, res, next) => {
 	}
 };
 
-exports.loginGetController = (req, res, next) => {};
-exports.loginPostController = (req, res, next) => {};
+exports.loginGetController = (req, res, next) => {
+    res.render("pages/auth/login", { title: "Blog | Login"})
+};
+exports.loginPostController = (req, res, next) => {
+    let {email, password} = req.body;
+
+    try {
+
+    } catch(err) {
+        
+    }
+
+};
 
 exports.logoutController = (req, res, next) => {};

@@ -1,41 +1,44 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
-html, body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 16px;
-    background-color: rgb(245, 245, 245);
+html,
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	background-color: rgb(245, 245, 245);
 }
 body {
-    position: relative;
+	position: relative;
 }
 a {
-    text-decoration: none;
-    color: rgb(215, 233, 250);
+	text-decoration: none;
 }
 nav {
-    position: sticky !important;
-    position: -webkit-sticky;
-    top: 0;
-    left: 0;
+	position: sticky !important;
+	position: -webkit-sticky;
+	top: 0;
+	left: 0;
 }
 
 .my-container {
-    min-height: 510px;    
+	min-height: 510px;
 }
 
 footer {
-    padding: 20px 0px;
-    background-color: #212529;
-    color: white;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	padding: 20px 0px;
+	background-color: #212529;
+	color: white;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 footer p {
-    font-size: 14px !important;
-    margin-bottom: 0;
+	font-size: 14px !important;
+	margin-bottom: 0;
+}
+footer p a {
+	color: rgb(215, 233, 250);
 }
