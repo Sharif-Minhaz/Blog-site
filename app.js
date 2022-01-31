@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 require("dotenv").config();
 const session = require("express-session");
+const flash = require("connect-flash");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const { bindUserWithRequest } = require("./middlewares/auth.middleware");
 const setLocals = require("./middlewares/setLocals.middleware");
@@ -41,6 +42,7 @@ const middleware = [
 	}),
 	bindUserWithRequest(),
 	setLocals(),
+	flash(),
 ];
 
 app.use(middleware);

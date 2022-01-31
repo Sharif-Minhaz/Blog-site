@@ -25,7 +25,7 @@ exports.isAuthenticated = (req, res, next) => {
 
 // task
 
-exports.ifAuthenticated = (req, res, next) => {
+exports.isUnAuthenticated = (req, res, next) => {
 	if (req.session.isLoggedIn) {
 		return res.redirect("/dashboard")
 	}
