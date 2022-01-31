@@ -13,28 +13,29 @@ exports.signupPostController = async (req, res, next) => {
 
 	if (!errors.isEmpty()) {
 		// return console.log(errors.mapped());
-		return res.render("pages/auth/signup", { title: "Blog | Signup", error: errors.mapped(), value: req.body });
-	}
+		res.render("pages/auth/signup", { title: "Blog | Signup", error: errors.mapped(), value: req.body });
+	} else {
+		try {
+			let hashedPassword = await bcrypt.hash(password, 10);
 
-	try {
-		let hashedPassword = await bcrypt.hash(password, 10);
+			let user = new User({
+				username,
+				email,
+				password: hashedPassword,
+			});
 
-		let user = new User({
-			username,
-			email,
-			password: hashedPassword,
-		});
-
-		let createdUser = await user.save();
-		// res.redirect("/auth/login")
-		res.render("pages/auth/signup", { title: "Blog | Signup", error: {}, value: {} });
-	} catch (err) {
-		console.error(err);
-		next(err);
+			let createdUser = await user.save();
+			
+			res.redirect("/auth/login");
+		} catch (err) {
+			console.error(err);
+			next(err);
+		}
 	}
 };
 
 exports.loginGetController = async (req, res, next) => {
+	console.log(req.session);
 	res.render("pages/auth/login", { title: "Blog | Login", error: {}, value: {} });
 };
 exports.loginPostController = async (req, res, next) => {
@@ -43,28 +44,34 @@ exports.loginPostController = async (req, res, next) => {
 	let errors = validationResult(req).formatWith(errorFormatter);
 
 	if (!errors.isEmpty()) {
-		// return console.log(errors.mapped());
-		return res.render("pages/auth/login", { title: "Blog | Login", error: errors.mapped(), value: req.body });
+		res.render("pages/auth/login", { title: "Blog | Login", error: errors.mapped(), value: req.body });
+	} else {
+		try {
+			let user = await User.findOne({ email });
+			if (!user) {
+
+				res.send("User not found");
+
+			} else {
+
+				let match = await bcrypt.compare(password, user.password);
+
+				if (!match) {
+					res.json({
+						msg: "wrong username or password",
+					});
+				} else {
+					req.session.isLoggedIn = true;
+					req.session.user = user;
+					res.redirect('/dashboard');
+				}
+			}
+		} catch (err) {
+			console.log(err);
+			next(err);
+		}
 	}
 
-	try {
-		let user = await User.findOne({ email });
-		if (!user) {
-			res.send("not found");
-		} else {
-			let match = await bcrypt.compare(password, user.password);
-			if (!match) {
-				res.json({
-					msg: "wrong username or password",
-				});
-			} else {
-				res.json(user);
-			}
-		}
-	} catch (err) {
-		console.log(err);
-		next(err);
-	}
 };
 
 exports.logoutController = (req, res, next) => {};
