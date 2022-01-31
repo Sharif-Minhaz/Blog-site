@@ -7,20 +7,24 @@
                     <h4>Create A New Account</h4>
                     <form action="/auth/signup" method="post">
                         <div class="form-floating mb-3">
-                            <input type="text" name="username" class="form-control" id="floatingInput" placeholder="username">
+                            <input type="text" name="username" class="form-control <%= error.username? "is-invalid" : "" %> " id="floatingInput" placeholder="username" value="<%= value.username && value.username %>">
                             <label for="floatingInput">username (must be unique)</label>
+                            <div class="invalid-feedback"><%= error.username && error.username %> </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="email" name="email" class="form-control" id="floatingEmail" placeholder="email">
+                            <input type="email" name="email" class="form-control <%= error.email? "is-invalid" : "" %>" id="floatingEmail" placeholder="email" value="<%= value.email && value.email %>">
                             <label for="floatingEmail">Email</label>
+                            <div class="invalid-feedback"><%= error.email && error.email %> </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+                            <input type="password" name="password" class="form-control <%= error.password? "is-invalid" : "" %>" id="floatingPassword" placeholder="Password" value="<%= value.password && value.password %>">
                             <label for="floatingPassword">Password</label>
+                            <div class="invalid-feedback"><%= error.password && error.password %> </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" name="confirmPassword" class="form-control" id="floatingConfirmPassword" placeholder="Confirm Password">
+                            <input type="password" name="confirmPassword" class="form-control <%= error.confirmPassword? "is-invalid" : "" %>" id="floatingConfirmPassword" placeholder="Confirm Password">
                             <label for="floatingConfirmPassword">Confirm Password</label>
+                            <div class="invalid-feedback"><%= error.confirmPassword && error.confirmPassword %> </div>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Signup">
                     </form>

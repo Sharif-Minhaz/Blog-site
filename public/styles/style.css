@@ -20,12 +20,15 @@ nav {
 	position: -webkit-sticky;
 	top: 0;
 	left: 0;
+	z-index: 999;
 }
-
+.brand-logo {
+	width: 35px;
+	height: 35px;
+}
 .my-container {
 	min-height: 510px;
 }
-
 footer {
 	padding: 20px 0px;
 	background-color: #212529;

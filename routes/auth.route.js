@@ -6,9 +6,10 @@ const {
 	loginPostController,
 	logoutController,
 } = require("../controllers/auth.controller");
+const signupValidator = require("../validator/auth/signupValidator");
 
 router.get("/signup", signupGetController);
-router.post("/signup", signupPostController);
+router.post("/signup", signupValidator, signupPostController);
 
 router.get("/login", loginGetController);
 router.post("/login", loginPostController);
