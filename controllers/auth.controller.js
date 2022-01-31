@@ -25,7 +25,7 @@ exports.signupPostController = async (req, res, next) => {
 			});
 
 			let createdUser = await user.save();
-			
+
 			res.redirect("/auth/login");
 		} catch (err) {
 			console.error(err);
@@ -35,7 +35,6 @@ exports.signupPostController = async (req, res, next) => {
 };
 
 exports.loginGetController = async (req, res, next) => {
-	console.log(req.session);
 	res.render("pages/auth/login", { title: "Blog | Login", error: {}, value: {} });
 };
 exports.loginPostController = async (req, res, next) => {
@@ -49,11 +48,8 @@ exports.loginPostController = async (req, res, next) => {
 		try {
 			let user = await User.findOne({ email });
 			if (!user) {
-
 				res.send("User not found");
-
 			} else {
-
 				let match = await bcrypt.compare(password, user.password);
 
 				if (!match) {
@@ -63,7 +59,9 @@ exports.loginPostController = async (req, res, next) => {
 				} else {
 					req.session.isLoggedIn = true;
 					req.session.user = user;
-					res.redirect('/dashboard');
+					req.session.save((err) => {
+						err ? next(err) : res.redirect("/dashboard");
+					});
 				}
 			}
 		} catch (err) {
@@ -71,7 +69,15 @@ exports.loginPostController = async (req, res, next) => {
 			next(err);
 		}
 	}
-
 };
 
-exports.logoutController = (req, res, next) => {};
+exports.logoutController = (req, res, next) => {
+	req.session.destroy((err) => {
+		if (err) {
+			console.error(err);
+			next(err);
+		} else {
+			res.redirect("/");
+		}
+	});
+};

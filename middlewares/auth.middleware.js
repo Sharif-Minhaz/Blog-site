@@ -22,3 +22,12 @@ exports.isAuthenticated = (req, res, next) => {
 	}
 	next();
 };
+
+// task
+
+exports.ifAuthenticated = (req, res, next) => {
+	if (req.session.isLoggedIn) {
+		return res.redirect("/dashboard")
+	}
+	next();
+}
