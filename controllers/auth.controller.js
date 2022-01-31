@@ -27,7 +27,7 @@ exports.signupPostController = async (req, res, next) => {
 
 		let createdUser = await user.save();
 		// res.redirect("/auth/login")
-		res.render("pages/auth/signup", { title: "Blog | Signup", error:{}, value: {} });
+		res.render("pages/auth/signup", { title: "Blog | Signup", error: {}, value: {} });
 	} catch (err) {
 		console.error(err);
 		next(err);
@@ -35,10 +35,17 @@ exports.signupPostController = async (req, res, next) => {
 };
 
 exports.loginGetController = async (req, res, next) => {
-	res.render("pages/auth/login", { title: "Blog | Login" });
+	res.render("pages/auth/login", { title: "Blog | Login", error: {}, value: {} });
 };
 exports.loginPostController = async (req, res, next) => {
 	let { email, password } = req.body;
+
+	let errors = validationResult(req).formatWith(errorFormatter);
+
+	if (!errors.isEmpty()) {
+		// return console.log(errors.mapped());
+		return res.render("pages/auth/login", { title: "Blog | Login", error: errors.mapped(), value: req.body });
+	}
 
 	try {
 		let user = await User.findOne({ email });
