@@ -1,10 +1,15 @@
 const express = require("express");
 const app = express();
-const mongoose = require("mongoose");
 require("dotenv").config();
+const mongoose = require("mongoose");
+const config = require("config");
 const session = require("express-session");
 const flash = require("connect-flash");
 const MongoDBStore = require("connect-mongodb-session")(session);
+// dev dependencies
+const morgan = require("morgan");
+const chalk = require("chalk");
+// routes and middlewares
 const { bindUserWithRequest } = require("./middlewares/auth.middleware");
 const setLocals = require("./middlewares/setLocals.middleware");
 const authRoute = require("./routes/auth.route");
@@ -26,13 +31,17 @@ store.on("error", (err) => {
 	console.log(err);
 });
 
+if (app.get("env").toLowerCase() === "development") {
+	app.use(morgan("dev"));
+}
+
 //middlewares
 const middleware = [
 	express.static("public"),
 	express.urlencoded({ extended: true }),
 	express.json(),
 	session({
-		secret: process.env.SECRET_KEY || "SECRET_KEY",
+		secret: config.get("secret"),
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
@@ -60,8 +69,9 @@ mongoose
 		useNewUrlParser: true,
 	})
 	.then(() => {
+		console.info(chalk.green("Connected to The Database"));
 		app.listen(PORT, () => {
-			console.log(`Server running at http://localhost:${PORT}`);
+			console.log(chalk.yellow(`Server running at http://localhost:${PORT}`));
 		});
 	})
 	.catch((err) => console.error(err));

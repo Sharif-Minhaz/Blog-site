@@ -7,17 +7,17 @@
                     <h4>Login to Your Account</h4>
                     <form action="/auth/login" method="post">
                         <div class="form-floating mb-3">
-                            <div class="invalid-feedback">
-                                <%= error.email && "Invalid user" %> 
-                            </div>
-                            <input type="email" name="email" class="form-control <%= error.email && "is-invalid" %>" id="floatingEmail" placeholder="email" value="<%= value.email && value.email %>">
+                            <input type="email" name="email" class="form-control <%= (error.email || error.authErr) && "is-invalid" %>" id="floatingEmail" placeholder="email" value="<%= value.email && value.email %>">
                             <label for="floatingEmail">Email</label>
+                            <div class="invalid-feedback">
+                                <%= error.authErr && "Wrong username or password." %> 
+                            </div>
                             <div class="invalid-feedback">
                                 <%= error.email && error.email %> 
                             </div>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" name="password" class="form-control <%= error.password && "is-invalid" %>" id="floatingPassword" placeholder="Password">
+                            <input type="password" name="password" class="form-control <%= (error.password || error.authErr) && "is-invalid" %>" id="floatingPassword" placeholder="Password">
                             <label for="floatingPassword">Password</label>
                             <div class="invalid-feedback">
                                 <%= error.password && error.password %> 
