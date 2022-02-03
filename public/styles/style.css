@@ -29,6 +29,11 @@ nav {
 .my-container {
 	min-height: 510px;
 }
+.notFound-error {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
 footer {
 	padding: 20px 0px;
 	background-color: #212529;

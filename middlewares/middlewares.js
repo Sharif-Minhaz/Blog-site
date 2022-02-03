@@ -17,7 +17,7 @@ const store = new MongoDBStore({
 });
 // Catch errors
 store.on("error", (err) => {
-	console.log(err);
+	console.error(err);
 });
 
 const middleware = [

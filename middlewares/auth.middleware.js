@@ -10,7 +10,6 @@ exports.bindUserWithRequest = () => {
 			req.user = user;
 			next();
 		} catch (err) {
-			console.error(err);
 			next(err);
 		}
 	};

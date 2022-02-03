@@ -23,6 +23,21 @@ if (app.get("env").toLowerCase() === "development") {
 setMiddlewares(app);
 setRoutes(app);
 
+// error handler
+app.use((req, res, next) => {
+	let error = new Error("404 page not found");
+	error.status = 404;
+	next(error);
+});
+
+app.use((error, req, res, next) => {
+	console.error(chalk.red.inverse(error));
+	if (error.status === 404) {
+		return res.render("pages/error/404", { title: "404 page not found", flashMessage: {} });
+	}
+	res.render("pages/error/500", { title: "server error", flashMessage: {} });
+});
+
 mongoose
 	.connect(DB_CONNECTION_STRING, {
 		useNewUrlParser: true,
