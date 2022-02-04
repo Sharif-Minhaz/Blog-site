@@ -3,7 +3,7 @@ const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
 // dev dependencies
-// const morgan = require("morgan");
+const morgan = require("morgan");
 const chalk = require("chalk");
 // routes and middlewares
 const setMiddlewares = require("./middlewares/middlewares");
@@ -15,9 +15,9 @@ app.set("views", "views");
 
 const { PORT, DB_CONNECTION_STRING } = process.env;
 
-// if (app.get("env").toLowerCase() === "development") {
-// 	app.use(morgan("dev"));
-// }
+if (app.get("env").toLowerCase() === "development") {
+	app.use(morgan("dev"));
+}
 
 // using routes from routes directory
 setMiddlewares(app);

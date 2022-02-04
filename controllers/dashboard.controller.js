@@ -79,10 +79,77 @@ exports.createProfilePostController = async (req, res, next) => {
 	}
 };
 
-exports.editProfileGetController = (req, res, next) => {
-	next();
+exports.editProfileGetController = async (req, res, next) => {
+	try {
+		let profile = await Profile.findOne({ user: req.user._id });
+		if (!profile) {
+			return res.redirect("/dashboard/create-profile");
+		}
+
+		res.render("pages/dashboard/edit-profile", {
+			title: "Edit profile",
+			error: {},
+			flashMessage: Flash.getMessage(req),
+			profile,
+		});
+	} catch (err) {
+		next(err);
+	}
 };
 
-exports.editProfilePostController = (req, res, next) => {
-	next();
+exports.editProfilePostController = async (req, res, next) => {
+	let errors = validationResult(req).formatWith(errorFormatter);
+
+	let { name, title, bio, website, twitter, facebook, github } = req.body;
+
+	if (!errors.isEmpty()) {
+		return res.render("pages/dashboard/edit-profile", {
+			title: "Create profile",
+			error: errors.mapped(),
+			flashMessage: Flash.getMessage(req),
+			profile: {
+				name,
+				title,
+				bio,
+				links: {
+					website,
+					twitter,
+					facebook,
+					github,
+				},
+			},
+		});
+	}
+
+	try {
+		let profile = {
+			name,
+			title,
+			bio,
+			links: {
+				website: website || "",
+				facebook: facebook || "",
+				twitter: twitter || "",
+				github: github || "",
+			},
+		};
+
+		let updatedProfile = await Profile.findOneAndUpdate(
+			{ user: req.user._id },
+			{ $set:  profile  },
+			{
+				new: true,
+			}
+		);
+		req.flash("success", "Profile updated successfully");
+		res.render("pages/dashboard/edit-profile", {
+			title: "Edit profile",
+			error: {},
+			flashMessage: Flash.getMessage(req),
+			profile: updatedProfile
+		});
+
+	} catch (err) {
+		next(err);
+	}
 };
