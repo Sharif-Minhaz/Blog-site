@@ -1,5 +1,5 @@
-<%- include("../../partials/head.ejs") %>
-
+<%- include("../../partials/head.ejs") %>    
+    
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-2">
@@ -14,7 +14,7 @@
                                 <img class="img-responsive rounded-circle img-thumbnail" id="profilePics" src="<%= user.profilePics %>" alt="profile_picture">
                                 <form action="/uploads/profilePics" class="my-2" id="profilePicsForm" method="post">
                                     <div class="mb-3">
-                                        <label for="formFile" class="form-label">Default file input example</label>
+                                        <label for="formFile" class="form-label">Change Profile Picture</label>
                                         <input class="form-control" name="profilePics" type="file" id="profilePicsFile" accept="image/*">
                                         <input 
                                             id="removeProfilePics" 
@@ -76,8 +76,30 @@
                 </div>
             </div>
         </div>
+
+        <%# ===============modal for project================ %> 
+        <div class="modal fade" id="crop-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cropped-image"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Upload</button>
+                </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
     <%- include("../../partials/footer.ejs") %>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js" integrity="sha512-Gs+PsXsGkmr+15rqObPJbenQ2wB3qYvTHuJO6YJzPe/dTLvhy0fmae2BcnaozxDo5iaF8emzmCZWbQ1XXiX2Ig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/scripts/profilePicsUplaod.js"></script>
 
 </body>
 </html>
