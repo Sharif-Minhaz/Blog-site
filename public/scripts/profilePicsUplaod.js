@@ -77,6 +77,28 @@ window.onload = function () {
 			baseCropping.croppie("destroy");
 		}, 1000);
 	});
+
+	$("#removeProfilePics").on("click", function () {
+		let headers = new Headers();
+		headers.append("Accept", "application/JSON");
+		let req = new Request("/uploads/profilePics", {
+			method: "DELETE",
+			headers,
+			mode: "cors",
+		});
+
+		fetch(req)
+			.then((res) => res.json())
+			.then((data) => {
+				document.getElementById("removeProfilePics").style.display = "none";
+				document.getElementById("profilePics").src = data.profilePics;
+				document.getElementById("profilePicsForm").reset();
+			})
+			.catch((err) => {
+				console.error(err);
+				alert("Server error occurred");
+			});
+	});
 };
 
 function generateFileName(name) {

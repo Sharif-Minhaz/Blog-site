@@ -1,3 +1,4 @@
+const fs = require("fs");
 const User = require("../models/User.model");
 const Profile = require("../models/Profile.model");
 
@@ -7,12 +8,9 @@ exports.uploadProfilePics = async (req, res, next) => {
 			let profile = await User.findOne({ user: req.user._id });
 			let profilePics = `/uploads/${req.file.filename}`;
 			if (profile) {
-				await Profile.findOneAndUpdate(
-                    { user: req.user._id }, 
-                    { $set: { profilePics } }
-                );
-			} 
-            await User.findOneAndUpdate(
+				await Profile.findOneAndUpdate({ user: req.user._id }, { $set: { profilePics } });
+			}
+			await User.findOneAndUpdate(
 				{
 					_id: req.user._id,
 				},
@@ -23,12 +21,49 @@ exports.uploadProfilePics = async (req, res, next) => {
 			});
 		} catch (err) {
 			res.status(500).json({
-                profilePics: req.user.profilePics,
-            })
+				profilePics: req.user.profilePics,
+			});
 		}
 	} else {
-        res.status(500).json({
+		res.status(500).json({
 			profilePics: req.user.profilePics,
 		});
-    }
+	}
+};
+
+exports.removeProfilePics = (req, res, next) => {
+	try {
+		let defaultProfile = "/uploads/default.jpg";
+		let currentProfilePics = req.user.profilePics;
+
+		fs.unlink(`public/${currentProfilePics}`, async (err) => {
+			let profile = await User.findOne({ user: req.user._id });
+			if (profile) {
+				await Profile.findOneAndUpdate(
+					{ user: req.user._id }, 
+					{ 
+						$set: { 
+							profilePics: defaultProfile 
+						} 
+					}
+				);
+			}
+			await User.findOneAndUpdate(
+				{
+					_id: req.user._id,
+				},
+				{ $set: { profilePics: defaultProfile } }
+			);
+		});
+
+		res.status(200).json({
+			profilePics: defaultProfile,
+		});
+		
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({
+			message: "can't remove profile picture",
+		});
+	}
 };
