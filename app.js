@@ -43,9 +43,9 @@ mongoose
 		useNewUrlParser: true,
 	})
 	.then(() => {
-		console.info(chalk.green("Connected to The Database"));
+		console.info(chalk.cyan("Connected to The Database"));
 		app.listen(PORT, () => {
-			console.log(chalk.yellow(`Server running at http://localhost:${PORT}`));
+			console.log(chalk.magentaBright.bold(`Server running at http://localhost:${PORT}`));
 		});
 	})
 	.catch((err) => console.error(err));

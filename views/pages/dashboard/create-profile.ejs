@@ -52,6 +52,7 @@
 												id="name"
 												placeholder="Enter your name"
 												name="name"
+												value="<%= profileData.name %>"
 											/>
 											<label for="name">Name</label>
                                             <div class="invalid-feedback">
@@ -76,6 +77,7 @@
 												id="title"
 												placeholder="Enter a short details"
 												name="title"
+												value="<%= profileData.title%>"
 											/>
 											<label for="title">Title</label>
                                             <div class="invalid-feedback">
@@ -89,7 +91,7 @@
 												placeholder="Enter your short bio"
 												id="bio"
 												name="bio"
-											></textarea>
+											><%= profileData.bio %></textarea>
 											<label for="bio">Enter your short bio</label>
                                             <div class="invalid-feedback">
                                                 <%= error.bio && error.bio%> 
@@ -107,6 +109,7 @@
 												id="website"
 												placeholder="Website link"
 												aria-describedby="basic-addon3"
+												value="<%= profileData.links.website %>"
 											/>   
                                             <div class="invalid-feedback">
                                                 <%= error.website && error.website%> 
@@ -124,6 +127,7 @@
 												id="facebook"
 												placeholder="Facebook link"
 												aria-describedby="basic-addon4"
+												value="<%= profileData.links.facebook %>"
 											/>
                                             <div class="invalid-feedback">
                                                 <%= error.facebook && error.facebook%> 
@@ -140,6 +144,7 @@
 												id="twitter"
 												placeholder="Twitter link"
 												aria-describedby="basic-addon5"
+												value="<%= profileData.links.twitter %>"
 											/>
                                             <div class="invalid-feedback">
                                                 <%= error.twitter && error.twitter%> 
@@ -156,6 +161,7 @@
 												id="github"
 												placeholder="Github link"
 												aria-describedby="basic-addon6"
+												value="<%= profileData.links.github %>"
 											/>
                                             <div class="invalid-feedback">
                                                 <%= error.github && error.github%> 

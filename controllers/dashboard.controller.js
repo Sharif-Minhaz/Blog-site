@@ -29,6 +29,9 @@ exports.createProfileGetController = async (req, res, next) => {
 			title: "Create profile",
 			error: {},
 			flashMessage: Flash.getMessage(req),
+			profileData: {
+				links: {},
+			},
 		});
 	} catch (err) {
 		next(err);
@@ -38,15 +41,27 @@ exports.createProfileGetController = async (req, res, next) => {
 exports.createProfilePostController = async (req, res, next) => {
 	let errors = validationResult(req).formatWith(errorFormatter);
 
+	let { name, title, bio, website, twitter, facebook, github } = req.body;
+
 	if (!errors.isEmpty()) {
 		return res.render("pages/dashboard/create-profile", {
 			title: "Create profile",
 			error: errors.mapped(),
 			flashMessage: Flash.getMessage(req),
+			profileData: {
+				name,
+				title,
+				bio,
+				links: {
+					website,
+					twitter,
+					facebook,
+					github,
+				},
+			},
 		});
 	}
 
-	let { name, title, bio, website, twitter, facebook, github } = req.body;
 	let profilePics = req.user.profilePics;
 
 	try {
@@ -136,7 +151,7 @@ exports.editProfilePostController = async (req, res, next) => {
 
 		let updatedProfile = await Profile.findOneAndUpdate(
 			{ user: req.user._id },
-			{ $set:  profile  },
+			{ $set: profile },
 			{
 				new: true,
 			}
@@ -146,9 +161,8 @@ exports.editProfilePostController = async (req, res, next) => {
 			title: "Edit profile",
 			error: {},
 			flashMessage: Flash.getMessage(req),
-			profile: updatedProfile
+			profile: updatedProfile,
 		});
-
 	} catch (err) {
 		next(err);
 	}

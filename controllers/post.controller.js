@@ -1,17 +1,68 @@
 const Flash = require("../utils/Flash");
+const readingTime = require("reading-time");
+const { validationResult } = require("express-validator");
+const errorFormatter = require("../utils/validationErrorFormatter");
+const Post = require("../models/Post.model");
+const Profile = require("../models/Profile.model");
 
 exports.createPostGetController = (req, res, next) => {
 	res.render("pages/dashboard/post/createPost", {
 		title: "Create a New Post",
 		error: {},
 		flashMessage: Flash.getMessage(req),
+		value: {},
 	});
 };
 
-exports.createPostPostController = (req, res, next) => {
-    res.render("pages/dashboard/post/createPost", {
-		title: "Create a New Post",
-		error: {},
-		flashMessage: Flash.getMessage(req),
+exports.createPostPostController = async (req, res, next) => {
+	let errors = validationResult(req).formatWith(errorFormatter);
+	let { title, body, tags } = req.body;
+
+	if (!errors.isEmpty()) {
+		return res.render("pages/dashboard/post/createPost", {
+			title: "Create a New Post",
+			error: errors.mapped(),
+			flashMessage: Flash.getMessage(req),
+			value: {
+				title,
+				body,
+				tags,
+			},
+		});
+	}
+
+	if (tags) {
+		tags = tags.split(",");
+	}
+
+	let readTime = readingTime(body).text;
+
+	let post = new Post({
+		title,
+		body,
+		tags,
+		author: req.user._id,
+		thumbnail: "",
+		readTime,
+		likes: [],
+		dislikes: [],
+		comments: [],
 	});
+
+	if (req.file) {
+		post.thumbnail = `/uploads/${req.file.filename}`;
+		console.log(post.thumbnail, req.file.filename);
+	}
+
+	try {
+		let createdPost = await post.save();
+		await Profile.findOneAndUpdate(
+			{ user: req.user._id },
+			{ $push: { posts: createdPost._id } }
+		);
+		req.flash("success", "Post created successfully");
+		return res.redirect(`/posts/edit/${createdPost._id}`);
+	} catch (err) {
+		next(err);
+	}
 };
