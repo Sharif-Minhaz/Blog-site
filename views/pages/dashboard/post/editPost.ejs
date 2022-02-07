@@ -11,25 +11,29 @@
 						<h4 class="py-2">Edit Post</h4>
 						<form action="/posts/create" method="post" enctype="multipart/form-data" >
 							<div class="form-floating mb-3">
-								<input type="text" name="title" class="form-control <%= error.title ? "is-invalid" : ""%> " id="floatingInput" value="<%= value.title %>" placeholder="title">
+								<input type="text" name="title" class="form-control <%= error.title ? "is-invalid" : ""%> " id="floatingInput" value="<%= post.title %>" placeholder="title">
 								<label for="floatingInput">Title</label>
 								<div class="invalid-feedback"><%= error.title %></div>
 							</div>
 							<div class="form-floating mb-3">
-								<textarea name="body" class="form-control <%= error.body ? "is-invalid" : ""%>" placeholder="Enter Your Post Body" id="tiny-mce-post-body" style="height: 100px"><%= value.body %></textarea>
+								<textarea name="body" class="form-control <%= error.body ? "is-invalid" : ""%>" placeholder="Enter Your Post Body" id="tiny-mce-post-body" style="height: 100px"><%= post.body %></textarea>
 								<label for="tiny-mce-post-body">Enter Your Post Body</label>
 								<div class="invalid-feedback"><%= error.body %></div>
 							</div>
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control <%= error.tags ? "is-invalid" : ""%>" id="tags" name="tags"value="<%= value.tags %>" placeholder="tags1, tags2, tags3">
+								<input type="text" class="form-control <%= error.tags ? "is-invalid" : ""%>" id="tags" name="tags"value="<%= post.tags.length > 0 ? post.tags.join(", ") : ""%>" placeholder="tags1, tags2, tags3">
 								<label for="tags">Enter some tags (max 10)</label>
 								<div class="invalid-feedback"><%= error.tags %></div>
 							</div>
+							<% if(post.thumbnail) { %> 
+								<label for="thumbnail">Post Image</label>
+								<img id="thumbnail" class="img-fluid my-3" src="<%= post.thumbnail %>" alt="post_img mb-3">
+							<% } %> 
 							<div class="input-group mb-3">
 								<input type="file" name="post-thumbnail" class="form-control" placeholder="Choose file" id="inputGroupFile02">
 								<label class="input-group-text custom-file-label" for="inputGroupFile02">Upload Thumbnail</label>
 							</div>
-							<input type="submit" class="btn btn-primary" value="Create New Post">
+							<input type="submit" class="btn btn-primary" value="Update Post">
 						</form>
 					</div>
 				</div>

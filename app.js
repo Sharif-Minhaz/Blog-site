@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const mongoose = require("mongoose");
+const path = require("path");
 // dev dependencies
 const morgan = require("morgan");
 const chalk = require("chalk");
@@ -11,7 +12,7 @@ const setRoutes = require("./routes/routes");
 
 // views engine setup
 app.set("view engine", "ejs");
-app.set("views", "views");
+app.set("views", path.join(__dirname, "views"));
 
 const { PORT, DB_CONNECTION_STRING } = process.env;
 

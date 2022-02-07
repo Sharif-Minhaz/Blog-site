@@ -1,3 +1,7 @@
 let tags = "tag1, tag2, tag3";
 
-console.log(tags.split(","));
+tags = tags.split(",");
+let modTags = [];
+tags.map((value) => value.trim());
+
+console.log(tags);
