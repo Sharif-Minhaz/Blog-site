@@ -9,6 +9,8 @@ const {
 	createPostPostController,
 	editPostGetController,
 	editPostPostController,
+	deletePostGetController,
+	postsGetController,
 } = require("../controllers/post.controller");
 
 router.get("/create", isAuthenticated, createPostGetController);
@@ -30,5 +32,9 @@ router.post(
 	postValidator,
 	editPostPostController
 );
+
+router.get("/delete/:postId", isAuthenticated, deletePostGetController);
+
+router.get("/", isAuthenticated, postsGetController);
 
 module.exports = router;

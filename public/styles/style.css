@@ -22,6 +22,10 @@ nav {
 	left: 0;
 	z-index: 999;
 }
+#alert-div {
+	position: absolute;
+	right: 13px;
+}
 .brand-logo {
 	width: 35px;
 	height: 35px;
@@ -34,6 +38,83 @@ nav {
 	flex-direction: column;
 	justify-content: center;
 }
+/* side bar start */
+
+#sidebar-bootstrap {
+	margin-top: 12px;
+	position: fixed;
+	width: 15.6666%;
+	box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+	border-radius: 3px;
+}
+
+#sidebar-bootstrap .bg-light {
+	border-radius: 3px;
+	height: calc(100vh - 141px);
+	overflow-y: auto;
+}
+
+.sp-padding {
+	padding: 13px;
+}
+
+.sidebar-img {
+	width: 40px;
+	margin-right: 10px;
+	border-radius: 50%;
+}
+
+.sidebar-img + span {
+	font-size: 22px;
+	color: #444;
+}
+
+.bi {
+	vertical-align: -0.125em;
+	pointer-events: none;
+	fill: currentColor;
+}
+
+.nav-flush .nav-link {
+	border-radius: 0;
+}
+
+.btn-toggle[aria-expanded="true"]::before {
+	transform: rotate(90deg);
+}
+
+.btn-toggle-nav a {
+	display: inline-flex;
+	padding: 0.1875rem 0.5rem;
+	margin-top: 0.125rem;
+	margin-left: 1.25rem;
+	text-decoration: none;
+}
+.btn-toggle-nav a:hover,
+.btn-toggle-nav a:focus {
+	background-color: #d2f4ea;
+}
+
+.scrollarea {
+	overflow-y: auto;
+}
+
+.fw-semibold {
+	font-weight: 600;
+}
+.lh-tight {
+	line-height: 1.25;
+}
+
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+/* side bar stop */
 footer {
 	padding: 20px 0px;
 	background-color: #212529;
@@ -49,4 +130,10 @@ footer p {
 }
 footer p a {
 	color: rgb(215, 233, 250);
+}
+
+@media (min-width: 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
 }

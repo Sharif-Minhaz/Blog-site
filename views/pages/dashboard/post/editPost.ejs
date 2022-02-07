@@ -4,7 +4,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-md-2">
-
+					<%- include("../../../partials/sidebar.ejs")  %>
 				</div>
 				<div class="col-md-10 my-5">
 					<div class="card card-body mx-5">
@@ -22,7 +22,7 @@
 							</div>
 							<div class="form-floating mb-3">
 								<input type="text" class="form-control <%= error.tags ? "is-invalid" : ""%>" id="tags" name="tags"value="<%= post.tags.length > 0 ? post.tags.join(", ") : ""%>" placeholder="tags1, tags2, tags3">
-								<label for="tags">Enter some tags (max 10)</label>
+								<label for="tags">Enter some tags</label>
 								<div class="invalid-feedback"><%= error.tags %></div>
 							</div>
 							<% if(post.thumbnail) { %> 
@@ -34,6 +34,7 @@
 								<label class="input-group-text custom-file-label" for="inputGroupFile02">Change Thumbnail</label>
 							</div>
 							<input type="submit" class="btn btn-primary" value="Update Post">
+							<a href="/posts/delete/<%= post._id %>" class="btn btn-danger ms-2">Delete Post</a>
 						</form>
 					</div>
 				</div>

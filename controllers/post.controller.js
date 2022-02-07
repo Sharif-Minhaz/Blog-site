@@ -68,7 +68,7 @@ exports.createPostPostController = async (req, res, next) => {
 };
 
 exports.editPostGetController = async (req, res, next) => {
-	let postId = req.params.postId;
+	let { postId } = req.params;
 	try {
 		let post = await Post.findOne({ author: req.user._id, _id: postId });
 		if (!post) {
@@ -89,7 +89,7 @@ exports.editPostGetController = async (req, res, next) => {
 
 exports.editPostPostController = async (req, res, next) => {
 	let { title, body, tags } = req.body;
-	let postId = req.params.postId;
+	let { postId } = req.params;
 	let errors = validationResult(req).formatWith(errorFormatter);
 
 	try {
@@ -127,6 +127,42 @@ exports.editPostPostController = async (req, res, next) => {
 
 		req.flash("success", "Post updated successfully");
 		res.redirect(`/posts/edit/${post._id}`);
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.deletePostGetController = async (req, res, next) => {
+	let { postId } = req.params;
+
+	try {
+		let post = await Post.findOne({ author: req.user._id, _id: postId });
+		console.log("data " + post);
+		if (!post) {
+			let error = new Error("404 page not found");
+			error.status = 404;
+			throw new error();
+		}
+
+		await Post.findOneAndDelete({ _id: postId });
+		await Profile.findOneAndUpdate({ user: req.user._id }, { $pull: { posts: postId } });
+
+		req.flash("success", "Post deleted successfully");
+		res.redirect("/posts");
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.postsGetController = async (req, res, next) => {
+	try {
+		let posts = await Post.find({ author: req.user._id });
+		res.render("pages/dashboard/post/posts", {
+			title: "Your posts",
+			error: {},
+			flashMessage: Flash.getMessage(req),
+			posts,
+		});
 	} catch (err) {
 		next(err);
 	}
