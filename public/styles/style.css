@@ -25,6 +25,7 @@ nav {
 #alert-div {
 	position: absolute;
 	right: 13px;
+	z-index: 999;
 }
 .brand-logo {
 	width: 35px;
@@ -32,6 +33,9 @@ nav {
 }
 .my-container {
 	min-height: 510px;
+}
+.fill-extra-space {
+	min-height: 66vh;
 }
 .notFound-error {
 	display: flex;
@@ -67,6 +71,10 @@ nav {
 .sidebar-img + span {
 	font-size: 22px;
 	color: #444;
+}
+
+.custom-sidebar-div .nav-link:hover:not(.nav-link.active) {
+	color: rgb(28, 209, 209);
 }
 
 .bi {

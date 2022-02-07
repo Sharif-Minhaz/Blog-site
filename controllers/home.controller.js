@@ -1,3 +1,3 @@
 exports.getHomePage = (req, res) => {
-	res.render("pages/home", { title: "Blog Site", error: {}, flashMessage: {} });
+	res.render("pages/home", { title: "Home", error: {}, flashMessage: {} });
 };

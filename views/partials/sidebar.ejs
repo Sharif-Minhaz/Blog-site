@@ -16,9 +16,9 @@
 			<span><%= user.username %></span>
 		</a>
 		<hr />
-		<ul class="nav nav-pills flex-column mb-auto">
+		<ul class="nav nav-pills flex-column mb-auto custom-sidebar-div">
 			<li class="nav-item">
-				<a href="/" class="nav-link active" aria-current="page">
+				<a href="/" class="nav-link link-dark <%= title.toLowerCase().includes("home") ? "active" : "" %>" >
 					<svg class="bi me-2" width="16" height="16">
 						<use xlink:href="#home" />
 					</svg>
@@ -26,7 +26,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/dashboard" class="nav-link link-dark">
+				<a href="/dashboard" class="nav-link link-dark <%= title.toLowerCase().includes("dashboard") ? "active" : "" %>">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -47,7 +47,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/posts/" class="nav-link link-dark">
+				<a href="/posts/" class="nav-link link-dark <%= title.toLowerCase().includes("your posts") ? "active" : "" %> ">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -64,7 +64,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/posts/create" class="nav-link link-dark">
+				<a href="/posts/create" class="nav-link link-dark <%= title.toLowerCase().includes("create a new post") ? "active" : "" %>">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -85,7 +85,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/dashboard/bookmarks" class="nav-link link-dark">
+				<a href="/dashboard/bookmarks" class="nav-link link-dark <%= title.toLowerCase().includes("bookmarks") ? "active" : "" %>">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -105,7 +105,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/dashboard/comments" class="nav-link link-dark">
+				<a href="/dashboard/comments" class="nav-link link-dark <%= title.toLowerCase().includes("comments") ? "active" : "" %>">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"
@@ -125,7 +125,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/posts/edit" class="nav-link link-dark">
+				<a href="/dashboard/edit-profile" class="nav-link link-dark <%= title.toLowerCase().includes("edit profile") ? "active" : "" %>">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						width="16"

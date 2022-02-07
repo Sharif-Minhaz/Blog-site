@@ -9,7 +9,7 @@ exports.dashboardGetController = async (req, res, next) => {
 		let profile = await Profile.findOne({ user: req.user._id });
 		if (profile) {
 			return res.render("pages/dashboard/dashboard", {
-				title: "Blog | Dashboard",
+				title: "Dashboard",
 				flashMessage: Flash.getMessage(req),
 			});
 		}
