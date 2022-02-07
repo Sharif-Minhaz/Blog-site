@@ -9,7 +9,7 @@
 				<div class="col-md-10 my-5">
 					<div class="card card-body mx-5">
 						<h4 class="py-2">Edit Post</h4>
-						<form action="/posts/create" method="post" enctype="multipart/form-data" >
+						<form action="/posts/edit/<%= post._id %>" method="post" enctype="multipart/form-data" >
 							<div class="form-floating mb-3">
 								<input type="text" name="title" class="form-control <%= error.title ? "is-invalid" : ""%> " id="floatingInput" value="<%= post.title %>" placeholder="title">
 								<label for="floatingInput">Title</label>
@@ -26,12 +26,12 @@
 								<div class="invalid-feedback"><%= error.tags %></div>
 							</div>
 							<% if(post.thumbnail) { %> 
-								<label for="thumbnail">Post Image</label>
-								<img id="thumbnail" class="img-fluid my-3" src="<%= post.thumbnail %>" alt="post_img mb-3">
+								<label for="thumbnail">Post Image</label><br>
+								<img id="thumbnail" class="img-fluid my-3" src="<%= post.thumbnail %>" alt="post_img">
 							<% } %> 
 							<div class="input-group mb-3">
 								<input type="file" name="post-thumbnail" class="form-control" placeholder="Choose file" id="inputGroupFile02">
-								<label class="input-group-text custom-file-label" for="inputGroupFile02">Upload Thumbnail</label>
+								<label class="input-group-text custom-file-label" for="inputGroupFile02">Change Thumbnail</label>
 							</div>
 							<input type="submit" class="btn btn-primary" value="Update Post">
 						</form>

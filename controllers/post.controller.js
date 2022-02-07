@@ -31,12 +31,9 @@ exports.createPostPostController = async (req, res, next) => {
 		});
 	}
 
-	let modTags = [];
 	if (tags) {
 		tags = tags.split(",");
-		tags.map((value) => {
-			modTags.push(value.trim());
-		});
+		tags = tags.map((value) => value.trim());
 	}
 
 	let readTime = readingTime(body).text;
@@ -44,7 +41,7 @@ exports.createPostPostController = async (req, res, next) => {
 	let post = new Post({
 		title,
 		body,
-		tags: modTags,
+		tags,
 		author: req.user._id,
 		thumbnail: "",
 		readTime,
@@ -75,7 +72,9 @@ exports.editPostGetController = async (req, res, next) => {
 	try {
 		let post = await Post.findOne({ author: req.user._id, _id: postId });
 		if (!post) {
-			throw new Error("404 page not found");
+			let error = new Error("404 page not found");
+			error.status = 404;
+			throw new error();
 		}
 		res.render("pages/dashboard/post/editPost", {
 			title: "Edit Post",
@@ -83,6 +82,51 @@ exports.editPostGetController = async (req, res, next) => {
 			flashMessage: Flash.getMessage(req),
 			post,
 		});
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.editPostPostController = async (req, res, next) => {
+	let { title, body, tags } = req.body;
+	let postId = req.params.postId;
+	let errors = validationResult(req).formatWith(errorFormatter);
+
+	try {
+		let post = await Post.findOne({ author: req.user._id, _id: postId });
+		if (!post) {
+			let error = new Error("404 page not found");
+			error.status = 404;
+			throw new error();
+		}
+
+		if (!errors.isEmpty()) {
+			return res.render("pages/dashboard/post/editPost", {
+				title: "Create a New Post",
+				error: errors.mapped(),
+				flashMessage: Flash.getMessage(req),
+				post,
+			});
+		}
+
+		if (tags) {
+			tags = tags.split(",");
+			tags = tags.map((value) => value.trim());
+		}
+
+		let thumbnail = post.thumbnail;
+		if (req.file) {
+			thumbnail = `/uploads/${req.file.filename}`;
+		}
+
+		await Post.findOneAndUpdate(
+			{ _id: post._id },
+			{ $set: { title, body, tags, thumbnail } },
+			{ new: true }
+		);
+
+		req.flash("success", "Post updated successfully");
+		res.redirect(`/posts/edit/${post._id}`);
 	} catch (err) {
 		next(err);
 	}

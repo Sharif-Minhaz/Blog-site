@@ -2,7 +2,7 @@ window.onload = function () {
 	tinymce.init({
 		selector: "#tiny-mce-post-body",
 		plugins: [
-			"allychecker advcode advlist lists link checklist autolink autosave code",
+			"advcode advlist lists link checklist autolink autosave code",
 			"preview",
 			"searchreplace",
 			"wordcount",
@@ -12,7 +12,9 @@ window.onload = function () {
 			"bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media | forecolor backcolor emoticons | code preview",
 		height: 300,
 		automatic_uploads: true,
+		relative_urls: false,
 		images_upload_url: "/uploads/postImage",
+		
 		images_upload_handler: function (blobInfo, success, failure) {
 			let headers = new Headers();
 			headers.append("Accept", "application/JSON");
