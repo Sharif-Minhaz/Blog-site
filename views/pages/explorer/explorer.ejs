@@ -26,7 +26,28 @@
                 </a>
             </section>
             <section>
-                <p>There is no post</p>
+                <% if (posts.length === 0) { %> 
+                    <p class="text-muted text-center">There is nothing to show</p>
+                <% } else { %>  
+                    <% for (let post of posts) { %> 
+                        <div class="card card-body mb-3">
+                            <% if (post.thumbnail) { %> 
+                                <img class="img-fluid mb-2" src="<%= post.thumbnail %> " alt="post_thumbnail">
+                            <% } %> 
+                            <a style="color: #222" href="/explorer/<%= post._id %>">
+                                <h5><%= post.title %> </h5>
+                                <p class="mb-2"><%= truncate(post.body) %> </p>
+                            </a>
+                            <div class="d-flex">
+                                <small>
+                                    <%= moment(post.createdAt) %>,
+                                    posted by <%= post.author.username %>,
+                                    <%= post.readTime %> 
+                                </small>
+                            </div>
+                        </div>
+                    <% } %> 
+                <% } %>
             </section>
         </div>
     </div>
