@@ -61,7 +61,7 @@ exports.explorerGetController = async (req, res, next) => {
 
 		let bookmarks = [];
 		if (req.user) {
-			let profile = await Profile.findOne({ user: req.user._id});
+			let profile = await Profile.findOne({ user: req.user._id });
 			if (profile) {
 				bookmarks = profile.bookmarks;
 			}
@@ -76,7 +76,51 @@ exports.explorerGetController = async (req, res, next) => {
 			itemPerPage,
 			currentPage,
 			totalPage,
-			bookmarks
+			bookmarks,
+		});
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.singlePageGetController = async (req, res, next) => {
+	let { postId } = req.params;
+	try {
+		let post = await Post.findById(postId)
+			.populate("author", "username profilePics")
+			.populate({
+				path: "comments",
+				populate: {
+					path: "user",
+					select: "username profilePics",
+				},
+			})
+			.populate({
+				path: "comments",
+				populate: {
+					path: "replies.user",
+					select: "username profilePics",
+				},
+			});
+		if (!post) {
+			let error = new Error("404 page not found");
+			error.status = 404;
+			throw error;
+		}
+
+		let bookmarks = [];
+		if (req.user) {
+			let profile = await Profile.findOne({ user: req.user._id });
+			if (profile) {
+				bookmarks = profile.bookmarks;
+			}
+		}
+
+		res.render("pages/explorer/singlePage", {
+			title: post.title,
+			flashMessage: Flash.getMessage(req),
+			post,
+			bookmarks,
 		});
 	} catch (err) {
 		next(err);

@@ -1,9 +1,9 @@
 <%- include("../../partials/head.ejs") %>
 
 <div class="container my-5">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="card card-body">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card card-body" style="padding: 2rem">
                 <section>
                     <h3><%= post.title %> </h3>
                     <div class="d-flex">
@@ -23,12 +23,12 @@
                         <% } %> 
                     </div>
                     <% if (post.thumbnail) { %> 
-                        <img src="/uploads/<%= post.thumbnail %>" class="img-fluid my-2" alt="post">
+                        <img src="<%= post.thumbnail %>" class="img-fluid my-2 rounded" alt="post">
                     <% } %> 
                     <section>
                         <%- post.body %> 
                     </section>
-                    <section>
+                    <section class="mt-5">
                         <% if(!user) { %> 
                             <button class="btn btn-success btn-sm disabled">Like (<%= post.likes.length %> )</button>
                             <button class="btn btn-danger btn-sm disabled">Dislike (<%= post.dislikes.length %> )</button>
@@ -37,20 +37,19 @@
                             </p>
                         <% } else { %> 
                             <button class="btn btn-success btn-sm" id="likeBtn" data-post="<%= post._id %>">
-                                <%= post.likes.includes(user._id) ? Liked : Like %> (<%= post.likes.length %>)
+                                <%= post.likes.includes(user._id) ? "Liked" : "Like" %> (<%= post.likes.length %>)
                             </button>
                             <button class="btn btn-danger btn-sm" id="dislikeBtn" data-post="<%= post._id %>">
-                                <%= post.dislikes.includes(user._id) ? disliked : dislike %> (<%= post.dislikes.length %>)
+                                <%= post.dislikes.includes(user._id) ? "disliked" : "dislike" %> (<%= post.dislikes.length %>)
                             </button>
                             <div class="form-floating mt-5">
-                                <h3>Leave a comment</h3>
                                 <textarea 
                                     class="form-control" 
                                     placeholder="Leave a comment here" 
                                     id="floatingTextarea2" style="height: 100px"
                                     data-post="<%= post._id %> "
                                 ></textarea>
-                                <label for="floatingTextarea2">Comments</label>
+                                <label for="floatingTextarea2">Leave a comment here</label>
                             </div>
                             <div class="mt-5">
                                 <% if (post.comments.length === 0) { %> 
@@ -58,7 +57,7 @@
                                 <% } else { %> 
                                     <% for(let comment of post.comments.reverse()) { %> 
                                         <div class="media border">
-                                            <img src="/uploads/<%= comment.user.profilePics %>" class="rounded-circle mx-3 my-3" style="width: 40px" alt="Profile_pic">
+                                            <img src="<%= comment.user.profilePics %>" class="rounded-circle mx-3 my-3" style="width: 40px" alt="Profile_pic">
                                         </div>
                                         <div class="media-body my-3">
                                             <p><%= comment.body %> </p>
@@ -66,7 +65,7 @@
                                                 <% if (comment.replies.length > 0) { %> 
                                                     <% for (let reply of post.replies) { %> 
                                                         <div class="media mt-3">
-                                                            <img src="/uploads/<%= reply.user.profilePics %>" class="align-self-start me-3 rounded circle" style="width: 40px" alt="rep_profile">
+                                                            <img src="<%= reply.user.profilePics %>" class="align-self-start me-3 rounded circle" style="width: 40px" alt="rep_profile">
                                                             <div class="media-body">
                                                                 <p><%= reply.body %> </p>
                                                             </div>
