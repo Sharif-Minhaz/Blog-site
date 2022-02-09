@@ -1,5 +1,6 @@
 const Flash = require("../utils/Flash");
 const Post = require("../models/Post.model");
+const Profile = require("../models/Profile.model");
 const moment = require("moment");
 
 function genDate(days) {
@@ -55,8 +56,16 @@ exports.explorerGetController = async (req, res, next) => {
 			.skip(itemPerPage * currentPage - itemPerPage)
 			.limit(itemPerPage);
 
-        let totalPost = await Post.countDocuments();
-        let totalPage = totalPost / itemPerPage;
+		let totalPost = await Post.countDocuments();
+		let totalPage = totalPost / itemPerPage;
+
+		let bookmarks = [];
+		if (req.user) {
+			let profile = await Profile.findOne({ user: req.user._id});
+			if (profile) {
+				bookmarks = profile.bookmarks;
+			}
+		}
 
 		res.render("pages/explorer/explorer", {
 			title: "Explore Posts",
@@ -64,9 +73,10 @@ exports.explorerGetController = async (req, res, next) => {
 			error: {},
 			flashMessage: Flash.getMessage(req),
 			posts,
-            itemPerPage,
-            currentPage,
-            totalPage
+			itemPerPage,
+			currentPage,
+			totalPage,
+			bookmarks
 		});
 	} catch (err) {
 		next(err);

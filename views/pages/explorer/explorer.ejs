@@ -41,9 +41,18 @@
                             <div class="d-flex">
                                 <small>
                                     <%= moment(post.createdAt) %>,
-                                    posted by <%= post.author.username %>,
+                                    posted by  <a href="/author/<%= post.author._id %>"><%= post.author.username %></a>,
                                     <%= post.readTime %> 
                                 </small>
+                                <% if (user) { %> 
+                                    <span class="ms-auto bookmark" id="parent-span" data-post="<%=post._id%>">
+                                        <% if (bookmarks.includes(post._id)) { %> 
+                                            <i class="fa-solid fa-book-bookmark" style="font-size: 20px"></i>
+                                        <% } else { %> 
+                                            <i class="far fa-bookmark" style="font-size: 20px"></i>
+                                        <% } %> 
+                                    </span>
+                                <% } %> 
                             </div>
                         </div>
                     <% } %> 
@@ -54,9 +63,9 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination">
                             <li class="page-item <%= currentPage === 1 ? "disabled" : "" %> ">
-                            <a class="page-link" href="<%= `/explorer?filter=${filter}&page=${currentPage - 1}`%> " aria-label="Previous">
-                                <span aria-hidden="true">Previous</span>
-                            </a>
+                                <a class="page-link" href="<%= `/explorer?filter=${filter}&page=${currentPage - 1}`%> " aria-label="Previous">
+                                    <span aria-hidden="true">Previous</span>
+                                </a>
                             </li>
                             
                             <% for (let i = 1; i <= totalPage; i++) { %> 
@@ -66,9 +75,9 @@
                             <% } %>     
                             
                             <li class="page-item <%= currentPage === totalPage ? "disabled" : "" %> ">
-                            <a class="page-link" href="<%= `/explorer?filter=${filter}&page=${currentPage + 1}`%>" aria-label="Next">
-                                <span aria-hidden="true">Next</span>
-                            </a>
+                                <a class="page-link" href="<%= `/explorer?filter=${filter}&page=${currentPage + 1}`%>" aria-label="Next">
+                                    <span aria-hidden="true">Next</span>
+                                </a>
                             </li>
                         </ul>
                     </nav>
@@ -79,6 +88,8 @@
 </div>
 
 <%- include("../../partials/footer.ejs") %>
+
+<script src="/scripts/bookmarks.js"></script>
 
 </body>
 </html>
