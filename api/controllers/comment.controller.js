@@ -31,7 +31,7 @@ exports.createCommentController = async (req, res, next) => {
 	} catch (err) {
 		console.error(err);
 		return res.status(500).json({
-			error: "Serve error occurred!",
+			error: "Server error occurred!",
 		});
 	}
 };
