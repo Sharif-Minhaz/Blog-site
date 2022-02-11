@@ -59,9 +59,9 @@
                                                 <p><%= comment.body %> </p>
                                                 <div name="replies" class="replies">
                                                     <% if (comment.replies.length > 0) { %> 
-                                                        <% for (let reply of post.replies) { %> 
+                                                        <% for (let reply of comment.replies) { %> 
                                                             <div class="media mt-3">
-                                                                <img src="<%= reply.user.profilePics %>" class="align-self-start me-3 rounded circle" style="width: 40px" alt="rep_profile">
+                                                                <img src="<%= reply.user.profilePics %>" class="align-self-start rounded-circle" style="width: 40px" alt="rep_profile">
                                                                 <div class="media-body">
                                                                     <p><%= reply.body %> </p>
                                                                 </div>
