@@ -122,6 +122,13 @@ nav {
 	user-select: none;
 }
 
+#comment-holder .media {
+	display: flex;
+}
+.reply-base {
+	width: 100% !important;
+}
+
 /* side bar stop */
 footer {
 	padding: 20px 0px;

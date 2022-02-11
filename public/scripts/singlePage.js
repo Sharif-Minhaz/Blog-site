@@ -43,7 +43,7 @@ window.onload = function () {
 					body: e.target.value,
 					main: e.target.value
 				};
-				let req = generateRequest(`/api/comments/${postId}`, "POST", data);
+				let req = generateRequest(`api/comments/${postId}/`, "POST", data);
 				fetch(req)
 					.then((res) => {
 						res.json();
