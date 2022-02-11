@@ -29,7 +29,6 @@ window.onload = function () {
 					}
 				})
 				.catch((e) => {
-					console.error(e.response.data);
 					alert(e.response.data.error);
 				});
 		});
@@ -41,22 +40,22 @@ window.onload = function () {
 				let postId = comment.dataset.post;
 				let data = {
 					body: e.target.value,
-					main: e.target.value
+					main: e.target.value,
 				};
-				let req = generateRequest(`api/comments/${postId}/`, "POST", data);
+				let req = generateRequest(`/api/comments/${postId}/`, "POST", data);
 				fetch(req)
 					.then((res) => {
 						res.json();
 					})
 					.then((data) => {
-						console.info(data)
 						let commentElement = createComment(data);
 						commentHolder.insertBefore(commentElement, commentHolder.children[0]);
 						e.target.value = "";
 					})
 					.catch((e) => {
-						console.log(e.message);
-						alert(e.message);
+						location.reload();
+						// console.log(e.message);
+						// alert(e.message);
 					});
 			} else {
 				alert("Please Enter A Valid Comment");
@@ -149,12 +148,9 @@ function generateRequest(url, method, body) {
 
 function createComment(comment) {
 	let innerHTML = `
-    <img
-        src="${comment.user.profilePics}" 
-        class="rounded-circle mx-3 my-3" style="width:40px;">
-        <div class="media-body my-3">
+    <img style="width:40px;" src="${comment.user.profilePics}" class="rounded-circle mx-3 my-3">
+    <div class="media-body my-3">
         <p>${comment.body}</p>
-
         <div class="my-3">
             <input class="form-control" type="text" placeholder="Press Enter to Reply" name="reply" data-comment=${comment._id} />
         </div>
@@ -169,9 +165,7 @@ function createComment(comment) {
 
 function createReplyElement(reply) {
 	let innerHTML = `
-        <img style="width:40px;"
-            src="${reply.profilePics}" 
-            class="align-self-start mr-3 rounded-circle">
+        <img style="width:40px;" src="${reply.profilePics}" class="align-self-start rounded-circle">
         <div class="media-body">
             <p>${reply.body}</p>
         </div>
