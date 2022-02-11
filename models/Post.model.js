@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 // const User = require("./User.model");
-const Comment = require("./Comment.model");
+// const Comment = require("./Comment.model");
 
 const postSchema = new Schema(
 	{

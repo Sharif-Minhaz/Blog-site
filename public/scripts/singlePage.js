@@ -41,11 +41,15 @@ window.onload = function () {
 				let postId = comment.dataset.post;
 				let data = {
 					body: e.target.value,
+					main: e.target.value
 				};
 				let req = generateRequest(`/api/comments/${postId}`, "POST", data);
 				fetch(req)
-					.then((res) => res.json())
+					.then((res) => {
+						res.json();
+					})
 					.then((data) => {
+						console.info(data)
 						let commentElement = createComment(data);
 						commentHolder.insertBefore(commentElement, commentHolder.children[0]);
 						e.target.value = "";
