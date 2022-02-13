@@ -12,7 +12,6 @@ exports.authorProfileGetController = async (req, res, next) => {
 				path: "posts",
 			},
 		});
-        console.log(author);
 		res.render("pages/explorer/author", {
 			title: "Author Profile",
 			flashMessage: Flash.getMessage(req),

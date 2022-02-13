@@ -2,17 +2,17 @@
 
 <div class="container my-5">
     <div class="row">
-        <div class="col-md-6 offset-md-3">
-            <div class="d-flex gap-4 card card-body">
-                <div>
+        <div class="col-md-8 offset-md-2">
+            <div class="d-flex gap-4 card card-body mb-3 px-5 py-5">
+                <div class="d-flex justify-content-center p-4 pb-2">
                     <img src="<%= author.profilePics %> " alt="profile" class="img-thumbnail img-fluid rounded">
                 </div>
-                <div>
-                    Name: <strong><%= author.profile.name %> </strong><br>
-                    Title: <strong><%= author.profile.title %></strong>
-                    <p class="mt-2">Bio: <%= author.profile.bio %> </p>
+                <div class="d-flex flex-column align-items-center">
+                    <span>Name: <strong><%= author.profile.name %></strong></span> 
+                    <span>Title: <strong><%= author.profile.title %></strong></span>                   
+                    <p class="mt-2 text-center">Bio: <%= author.profile.bio %></p>
 
-                    <div class="d-flex gap-2">
+                    <div id="social-icons">
                         <% if(author.profile.links.website) { %> 
                             <span>
                                 <a href="<%= author.profile.links.website %>" target="_blank">
@@ -43,6 +43,25 @@
                         <% } %> 
                     </div>
                 </div>
+            </div>
+            <h5 class="pt-4 ps-2 pb-2">All Published Posts</h5>
+            <div class="all-post">
+                <% if (author.profile.posts) { %> 
+                    <% for (let post of author.profile.posts) { %>
+                        <div class="card card-body">
+                            <% if(post.thumbnail) { %>
+                                <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="card-img-top mb-2" />
+                            <% } %>  
+                            <div class="py-2">
+                                <a href="/explorer/<%= post._id %> ">
+                                    <h5 style="color: #222;"><%= post.title %> </h5>
+                                </a>
+                            </div>
+                        </div>
+                    <% } %> 
+                <% } else { %>
+                    <p class="my-3 text-center text-muted">User have no posts</p>
+                <% } %> 
             </div>
         </div>
     </div>

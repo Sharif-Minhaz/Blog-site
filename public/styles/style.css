@@ -136,7 +136,19 @@ nav {
 .replies .media {
 	gap: 14px;
 }
-
+.all-post {
+	display: grid;
+	grid: auto / auto auto;
+	/* width: 100%; */
+	gap: 10px;
+}
+#social-icons {
+	display: flex;
+	gap: 16px;
+}
+#social-icons i {
+	font-size: 30px;
+}
 /* side bar stop */
 footer {
 	padding: 20px 0px;
