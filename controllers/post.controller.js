@@ -4,6 +4,7 @@ const { validationResult } = require("express-validator");
 const errorFormatter = require("../utils/validationErrorFormatter");
 const Post = require("../models/Post.model");
 const Profile = require("../models/Profile.model");
+const fs = require("fs");
 
 exports.createPostGetController = (req, res, next) => {
 	res.render("pages/dashboard/post/createPost", {
@@ -115,6 +116,9 @@ exports.editPostPostController = async (req, res, next) => {
 		}
 
 		let thumbnail = post.thumbnail;
+		fs.unlink(`public/${thumbnail}`, (err) => {
+			err && console.error(err);
+		});
 		if (req.file) {
 			thumbnail = `/uploads/${req.file.filename}`;
 		}
@@ -137,7 +141,6 @@ exports.deletePostGetController = async (req, res, next) => {
 
 	try {
 		let post = await Post.findOne({ author: req.user._id, _id: postId });
-		console.log("data " + post);
 		if (!post) {
 			let error = new Error("404 page not found");
 			error.status = 404;
@@ -146,7 +149,9 @@ exports.deletePostGetController = async (req, res, next) => {
 
 		await Post.findOneAndDelete({ _id: postId });
 		await Profile.findOneAndUpdate({ user: req.user._id }, { $pull: { posts: postId } });
-
+		fs.unlink(`public/${post.thumbnail}`, (err) => {
+			err && console.error(err);
+		});
 		req.flash("success", "Post deleted successfully");
 		res.redirect("/posts");
 	} catch (err) {

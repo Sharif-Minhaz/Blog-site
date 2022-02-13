@@ -44,18 +44,16 @@ window.onload = function () {
 				};
 				let req = generateRequest(`/api/comments/${postId}/`, "POST", data);
 				fetch(req)
-					.then((res) => {
-						res.json();
-					})
+					.then((res) => res.json())
 					.then((data) => {
 						let commentElement = createComment(data);
 						commentHolder.insertBefore(commentElement, commentHolder.children[0]);
 						e.target.value = "";
 					})
 					.catch((e) => {
-						location.reload();
+						// location.reload();
 						// console.log(e.message);
-						// alert(e.message);
+						alert(e.message);
 					});
 			} else {
 				alert("Please Enter A Valid Comment");
@@ -67,6 +65,7 @@ window.onload = function () {
 		if (commentHolder.hasChildNodes(e.target)) {
 			if (e.key === "Enter") {
 				let commentId = e.target.dataset.comment;
+				let user = e.target.dataset.user;
 				let value = e.target.value;
 
 				if (value) {
@@ -77,7 +76,7 @@ window.onload = function () {
 					fetch(req)
 						.then((res) => res.json())
 						.then((data) => {
-							let replyElement = createReplyElement(data);
+							let replyElement = createReplyElement(data, user);
 							let parent = e.target.parentElement;
 							parent.previousElementSibling.appendChild(replyElement);
 							e.target.value = "";
@@ -148,10 +147,15 @@ function generateRequest(url, method, body) {
 
 function createComment(comment) {
 	let innerHTML = `
-    <img style="width:40px;" src="${comment.user.profilePics}" class="rounded-circle mx-3 my-3">
-    <div class="media-body my-3">
+	<a href="/author/${comment.user._id}" class="sm-details">
+    	<img style="width:49px; height:49px" src="${comment.user.profilePics}" class="rounded-circle mx-3 my-3">
+    </a>
+	<div class="media-body pe-3 my-3">
+		<a href="/author/${comment.user._id}">
+			<span>${comment.user.username}</span>
+		</a>
         <p>${comment.body}</p>
-        <div class="my-3">
+        <div class="my-3 reply-base">
             <input class="form-control" type="text" placeholder="Press Enter to Reply" name="reply" data-comment=${comment._id} />
         </div>
     </div>
@@ -163,10 +167,15 @@ function createComment(comment) {
 	return div;
 }
 
-function createReplyElement(reply) {
+function createReplyElement(reply, user) {
 	let innerHTML = `
-        <img style="width:40px;" src="${reply.profilePics}" class="align-self-start rounded-circle">
+		<a href="/author/${reply.user}" class="sm-details">
+        	<img style="width:44px; height:44px" src="${reply.profilePics}" alt="rep_profile" class="align-self-start rounded-circle">
+		</a>
         <div class="media-body">
+			<a href="/author/${reply.user}">
+				<span>${user}</span>
+			</a>
             <p>${reply.body}</p>
         </div>
     `;
