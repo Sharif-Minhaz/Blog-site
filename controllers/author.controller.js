@@ -7,7 +7,6 @@ exports.authorProfileGetController = async (req, res, next) => {
 	try {
 		let author = await User.findById(userId).populate({
 			path: "profile",
-			// select: "posts",
 			populate: {
 				path: "posts",
 			},

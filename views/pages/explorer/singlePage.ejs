@@ -54,15 +54,25 @@
                                 <% } else { %> 
                                     <% for(let comment of post.comments.reverse()) { %> 
                                         <div class="media border pe-3">
-                                            <img src="<%= comment.user.profilePics %>" class="rounded-circle mx-3 my-3" style="width: 40px; height: 40px;" alt="Profile_pic">
+                                            <a href="/author/<%= comment.user._id %> " class="sm-details">
+                                                <img src="<%= comment.user.profilePics %>" class="rounded-circle mx-3 my-3" style="width: 49px; height: 49px;" alt="Profile_pic">
+                                            </a>
                                             <div class="media-body my-3 w-100">
+                                                <a href="/author/<%= comment.user._id %>">
+                                                    <span><%= comment.user.username %></span>
+                                                </a>
                                                 <p><%= comment.body %> </p>
                                                 <div name="replies" class="replies">
                                                     <% if (comment.replies.length > 0) { %> 
                                                         <% for (let reply of comment.replies) { %> 
                                                             <div class="media mt-3">
-                                                                <img src="<%= reply.user.profilePics %>" class="align-self-start rounded-circle" style="width: 40px" alt="rep_profile">
+                                                                <a href="/author/<%= reply.user._id %> " class="sm-details">
+                                                                    <img src="<%= reply.user.profilePics %>" class="align-self-start rounded-circle" style="width: 44px; height: 44px" alt="rep_profile">
+                                                                </a>
                                                                 <div class="media-body">
+                                                                    <a href="/author/<%= reply.user._id %>">
+                                                                        <span><%= reply.user.username %></span>
+                                                                    </a>
                                                                     <p><%= reply.body %> </p>
                                                                 </div>
                                                             </div>

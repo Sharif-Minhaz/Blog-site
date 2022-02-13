@@ -149,6 +149,10 @@ nav {
 #social-icons i {
 	font-size: 30px;
 }
+.sm-details {
+	display: flex;
+	gap: 10px;
+}
 /* side bar stop */
 footer {
 	padding: 20px 0px;
