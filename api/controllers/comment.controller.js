@@ -20,7 +20,7 @@ exports.createCommentController = async (req, res, next) => {
 
 	try {
 		let createdComment = await comment.save();
-		await Post.findOneAndUpdate({ _id: postId }, { $push: { comments: createdComment._id } });
+		await Post.findOneAndUpdate({ _id: postId }, { $push: { "comments": createdComment._id } });
 
 		let commentJSON = await Comment.findById(createdComment._id).populate({
 			path: "user",

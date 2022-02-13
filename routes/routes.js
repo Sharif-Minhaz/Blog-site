@@ -5,6 +5,7 @@ const postRoute = require("./post.route");
 const homeRoute = require("./home.route");
 const apiRoute = require("../api/routes/api.route");
 const explorerRoute = require("./explorer.route");
+const searchRoute = require("./search.route");
 
 const routes = [
 	{
@@ -23,13 +24,18 @@ const routes = [
 		path: "/posts",
 		handler: postRoute,
 	},
-	{
-		path: "/api",
-		handler: apiRoute,
-	},
+	
 	{
 		path: "/explorer",
 		handler: explorerRoute,
+	},
+	{
+		path: "/search",
+		handler: searchRoute,
+	},
+	{
+		path: "/api",
+		handler: apiRoute,
 	},
 	{
 		path: "/",
