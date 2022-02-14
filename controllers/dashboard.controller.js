@@ -7,11 +7,19 @@ const errorFormatter = require("../utils/validationErrorFormatter");
 
 exports.dashboardGetController = async (req, res, next) => {
 	try {
-		let profile = await Profile.findOne({ user: req.user._id });
+		let profile = await Profile.findOne({ user: req.user._id }).populate({
+			path: "posts",
+			select: "title thumbnail",
+		}).populate({
+			path: "bookmarks",
+			select: "title thumbnail",
+		})
 		if (profile) {
 			return res.render("pages/dashboard/dashboard", {
 				title: "Dashboard",
 				flashMessage: Flash.getMessage(req),
+				posts: profile.posts,
+				bookmarks: profile.bookmarks
 			});
 		}
 		res.redirect("/dashboard/create-profile");

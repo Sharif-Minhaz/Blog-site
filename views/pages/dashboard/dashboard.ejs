@@ -6,7 +6,53 @@
                 <%- include("../../partials/sidebar.ejs")  %>
             </div>
             <div class="col-10 py-3">
-                <h1 class="display-1 text-center">Welcome to dashboard!</h1>
+                <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                        <h5 class="pt-4 ps-2 pb-2">My Recently Created Posts</h5>
+                        <div class="all-post">
+                            <% if (posts) { %> 
+                                <% for (let post of posts.reverse()) { %>
+                                    <div class="card card-body">
+                                        <% if(post.thumbnail) { %>
+                                            <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="card-img-top mb-2" />
+                                        <% } %>  
+                                        <div class="py-2">
+                                            <a href="/explorer/<%= post._id %> ">
+                                                <h5 style="color: #222;"><%= post.title %> </h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %> 
+                            <% } else { %>
+                                <p class="my-3 text-center text-muted">No post available right now</p>
+                            <% } %> 
+                        </div>
+                    </div>
+                </div>
+                <!-- bookmarks -->
+                <div class="row">
+                    <div class="col-md-6 offset-md-2">
+                        <h5 class="pt-4 ps-2 pb-2">Bookmarked Posts</h5>
+                        <div class="all-post">
+                            <% if (bookmarks) { %> 
+                                <% for (let bookmark of bookmarks.reverse()) { %>
+                                    <div class="card card-body">
+                                        <% if(bookmark.thumbnail) { %>
+                                            <img src="<%= bookmark.thumbnail %>" alt="<%= bookmark.title %>" class="card-img-top mb-2" />
+                                        <% } %>  
+                                        <div class="py-2">
+                                            <a href="/explorer/<%= bookmark._id %> ">
+                                                <h5 style="color: #222;"><%= bookmark.title %> </h5>
+                                            </a>
+                                        </div>
+                                    </div>
+                                <% } %> 
+                            <% } else { %>
+                                <p class="my-3 text-center text-muted">No bookmarked post available</p>
+                            <% } %> 
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
