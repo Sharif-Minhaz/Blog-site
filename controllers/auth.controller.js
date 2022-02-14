@@ -5,7 +5,12 @@ const errorFormatter = require("../utils/validationErrorFormatter");
 const Flash = require("../utils/Flash");
 
 exports.signupGetController = (req, res, next) => {
-	res.render("pages/auth/signup", { title: "Blog | Signup", error: {}, value: {}, flashMessage: Flash.getMessage(req) });
+	res.render("pages/auth/signup", {
+		title: "Signup",
+		error: {},
+		value: {},
+		flashMessage: Flash.getMessage(req),
+	});
 };
 
 exports.signupPostController = async (req, res, next) => {
@@ -14,7 +19,12 @@ exports.signupPostController = async (req, res, next) => {
 
 	if (!errors.isEmpty()) {
 		req.flash("fail", "Please Check the fields");
-		res.render("pages/auth/signup", { title: "Blog | Signup", error: errors.mapped(), value: req.body, flashMessage: Flash.getMessage(req) });
+		res.render("pages/auth/signup", {
+			title: "Signup",
+			error: errors.mapped(),
+			value: req.body,
+			flashMessage: Flash.getMessage(req),
+		});
 	} else {
 		try {
 			let hashedPassword = await bcrypt.hash(password, 10);
@@ -35,7 +45,12 @@ exports.signupPostController = async (req, res, next) => {
 };
 
 exports.loginGetController = async (req, res, next) => {
-	res.render("pages/auth/login", { title: "Blog | Login", error: {}, value: {}, flashMessage: Flash.getMessage(req) });
+	res.render("pages/auth/login", {
+		title: "Login",
+		error: {},
+		value: {},
+		flashMessage: Flash.getMessage(req),
+	});
 };
 exports.loginPostController = async (req, res, next) => {
 	let { email, password } = req.body;
@@ -43,14 +58,19 @@ exports.loginPostController = async (req, res, next) => {
 	let errors = validationResult(req).formatWith(errorFormatter);
 	if (!errors.isEmpty()) {
 		req.flash("fail", "Please Check your information");
-		res.render("pages/auth/login", { title: "Blog | Login", error: errors.mapped(), value: req.body, flashMessage: Flash.getMessage(req) });
+		res.render("pages/auth/login", {
+			title: "Login",
+			error: errors.mapped(),
+			value: req.body,
+			flashMessage: Flash.getMessage(req),
+		});
 	} else {
 		try {
 			let user = await User.findOne({ email });
 			if (!user) {
 				req.flash("fail", "Please provide valid credentials");
 				res.render("pages/auth/login", {
-					title: "Blog | Login",
+					title: "Login",
 					error: { authErr: true },
 					value: req.body,
 					flashMessage: Flash.getMessage(req),
@@ -61,7 +81,7 @@ exports.loginPostController = async (req, res, next) => {
 				if (!match) {
 					req.flash("fail", "Please provide valid credentials");
 					res.render("pages/auth/login", {
-						title: "Blog | Login",
+						title: "Login",
 						error: { authErr: true },
 						value: req.body,
 						flashMessage: Flash.getMessage(req),
@@ -73,7 +93,7 @@ exports.loginPostController = async (req, res, next) => {
 						if (err) {
 							next(err);
 						} else {
-							req.flash("success", "Successfully logged in.")
+							req.flash("success", "Successfully logged in.");
 							res.redirect("/dashboard");
 						}
 					});
@@ -94,4 +114,60 @@ exports.logoutController = (req, res, next) => {
 			res.redirect("/");
 		}
 	});
+};
+
+exports.changePasswordGetController = async (req, res, next) => {
+	res.render("pages/auth/changePassword", {
+		title: "Change Password",
+		flashMessage: Flash.getMessage(req),
+		error: {},
+		value: {},
+	});
+};
+
+exports.changePasswordPostController = async (req, res, next) => {
+	let { oldPassword, newPassword, confirmPassword } = req.body;
+	let errors = validationResult(req).formatWith(errorFormatter);
+
+	if (!errors.isEmpty()) {
+		console.log(errors.mapped());
+		req.flash("fail", "Please Check your information");
+		return res.render("pages/auth/changePassword", {
+			title: "Change Password",
+			flashMessage: Flash.getMessage(req),
+			error: errors.mapped(),
+			value: req.body,
+		});
+	}
+	if (newPassword !== confirmPassword) {
+		req.flash("fail", "Passwords does not match");
+
+		return res.render("pages/auth/changePassword", {
+			title: "Change Password",
+			flashMessage: Flash.getMessage(req),
+			error: errors.mapped(),
+			value: req.body,
+		});
+	}
+
+	try {
+		let match = await bcrypt.compare(oldPassword, req.user.password);
+		if (!match) {
+			req.flash("fail", "Please provide valid credentials");
+			return res.render("pages/auth/changePassword", {
+				title: "Change Password",
+				error: { authErr: true },
+				value: req.body,
+				flashMessage: Flash.getMessage(req),
+			});
+		}
+
+		let hash = await bcrypt.hash(newPassword, 10);
+		await User.findOneAndUpdate({ _id: req.user._id }, { $set: { password: hash } });
+		req.flash("success", "Password changed successfully");
+	} catch (err) {
+		next(err);
+	}
+
+	res.redirect("/dashboard");
 };
