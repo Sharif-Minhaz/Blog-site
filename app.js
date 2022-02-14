@@ -14,7 +14,8 @@ const setRoutes = require("./routes/routes");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-const { PORT, DB_CONNECTION_STRING } = process.env;
+const { DB_CONNECTION_STRING } = process.env;
+const PORT = process.env.PORT || 8080;
 
 if (app.get("env").toLowerCase() === "development") {
 	app.use(morgan("dev"));
