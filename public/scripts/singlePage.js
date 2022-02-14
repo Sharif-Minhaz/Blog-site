@@ -4,6 +4,7 @@ window.onload = function () {
 	const dislikeBtn = document.getElementById("dislikeBtn");
 	const comment = document.getElementById("comment");
 	const commentHolder = document.getElementById("comment-holder");
+	const reply = document.getElementById("reply");
 
 	[...bookmarks].forEach((bookmark) => {
 		bookmark.style.cursor = "pointer";
@@ -51,8 +52,6 @@ window.onload = function () {
 						e.target.value = "";
 					})
 					.catch((e) => {
-						// location.reload();
-						// console.log(e.message);
 						alert(e.message);
 					});
 			} else {
@@ -65,7 +64,8 @@ window.onload = function () {
 		if (commentHolder.hasChildNodes(e.target)) {
 			if (e.key === "Enter") {
 				let commentId = e.target.dataset.comment;
-				let user = e.target.dataset.user;
+				let user = reply.dataset.user;
+				console.log(user);
 				let value = e.target.value;
 
 				if (value) {
@@ -82,7 +82,6 @@ window.onload = function () {
 							e.target.value = "";
 						})
 						.catch((e) => {
-							console.log(e);
 							alert(e.message);
 						});
 				} else {
@@ -93,7 +92,6 @@ window.onload = function () {
 	});
 
 	likeBtn.addEventListener("click", function (e) {
-		console.log("Like");
 		let postId = likeBtn.dataset.post;
 		reqLikeDislike("likes", postId)
 			.then((res) => res.json())
@@ -150,18 +148,19 @@ function createComment(comment) {
 	<a href="/author/${comment.user._id}" class="sm-details">
     	<img style="width:49px; height:49px" src="${comment.user.profilePics}" class="rounded-circle mx-3 my-3">
     </a>
-	<div class="media-body pe-3 my-3">
-		<a href="/author/${comment.user._id}">
+	<div class="media-body w-100 pe-3 my-3">
+		<a class="d-flex justify-content-between w-100" href="/author/${comment.user._id}">
 			<span>${comment.user.username}</span>
+			<span class="text-muted">a few seconds ago</span>
 		</a>
-        <p>${comment.body}</p>
+        <p style="width: 100%">${comment.body}</p>
         <div class="my-3 reply-base">
             <input class="form-control" type="text" placeholder="Press Enter to Reply" name="reply" data-comment=${comment._id} />
         </div>
     </div>
     `;
 	let div = document.createElement("div");
-	div.className = "media border";
+	div.className = "media border w-100";
 	div.innerHTML = innerHTML;
 
 	return div;
@@ -169,19 +168,22 @@ function createComment(comment) {
 
 function createReplyElement(reply, user) {
 	let innerHTML = `
-		<a href="/author/${reply.user}" class="sm-details">
-        	<img style="width:44px; height:44px" src="${reply.profilePics}" alt="rep_profile" class="align-self-start rounded-circle">
+		<a href="/author/${reply.user}">
+			<img src="${reply.profilePics}" class="align-self-start rounded-circle" style="width: 44px; height: 44px" alt="rep_profile">
 		</a>
-        <div class="media-body">
-			<a href="/author/${reply.user}">
+		<div class="media-body">
+			<a class="w-100 d-flex justify-content-between" href="/author/${reply.user}">
 				<span>${user}</span>
+				<span class="text-muted d-flex">
+					a few seconds ago
+				</span>
 			</a>
-            <p>${reply.body}</p>
-        </div>
+			<p>${reply.body}</p>
+		</div>
     `;
 
 	let div = document.createElement("div");
-	div.className = "media mt-3";
+	div.className = "media mt-3 w-100 gap-14";
 	div.innerHTML = innerHTML;
 
 	return div;

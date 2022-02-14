@@ -156,6 +156,9 @@ nav {
 .fa-bookmark {
 	font-size: 20px;
 }
+.gap-14 {
+	gap: 14px;
+}
 /* side bar stop */
 footer {
 	padding: 20px 0px;

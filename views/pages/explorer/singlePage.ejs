@@ -68,8 +68,8 @@
                                                 <div class="replies w-100">
                                                     <% if (comment.replies.length > 0) { %> 
                                                         <% for (let reply of comment.replies) { %> 
-                                                            <div class="media mt-3 w-100">
-                                                                <a href="/author/<%= reply.user._id %> " class="sm-details">
+                                                            <div class="media mt-3 w-100 sm-details">
+                                                                <a href="/author/<%= reply.user._id %>">
                                                                     <img src="<%= reply.user.profilePics %>" class="align-self-start rounded-circle" style="width: 44px; height: 44px" alt="rep_profile">
                                                                 </a>
                                                                 <div class="media-body">
@@ -86,7 +86,7 @@
                                                     <% } %> 
                                                 </div>
                                                 <div class="my-3 reply-base">
-                                                    <input type="text" class="form-control" placeholder="Press Enter to reply" name="reply" data-user="<%= user.username %> " data-comment="<%= comment._id %> ">
+                                                    <input type="text" class="form-control" placeholder="Press Enter to reply" id="reply" name="reply" data-user="<%= user.username %>" data-comment="<%= comment._id %>">
                                                 </div>
                                             </div>
                                         </div>
