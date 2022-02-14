@@ -163,7 +163,7 @@ exports.postsGetController = async (req, res, next) => {
 	try {
 		let posts = await Post.find({ author: req.user._id });
 		res.render("pages/dashboard/post/posts", {
-			title: "Your posts",
+			title: "My posts",
 			error: {},
 			flashMessage: Flash.getMessage(req),
 			posts,

@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const Flash = require("../utils/Flash");
 const Profile = require("../models/Profile.model");
+const Comment = require("../models/Comment.model");
 const User = require("../models/User.model");
 const errorFormatter = require("../utils/validationErrorFormatter");
 
@@ -170,18 +171,43 @@ exports.editProfilePostController = async (req, res, next) => {
 
 exports.bookmarksGetController = async (req, res, next) => {
 	try {
-		let profile = await Profile.findOne({ user: req.user._id })
-		.populate({
+		let profile = await Profile.findOne({ user: req.user._id }).populate({
 			path: "bookmarks",
 			model: "Post",
 			select: "title thumbnail",
-		})
+		});
 		res.render("pages/dashboard/bookmarks", {
 			title: "Bookmarks",
 			flashMessage: Flash.getMessage(req),
-			posts: profile.bookmarks
-		})
+			posts: profile.bookmarks,
+		});
 	} catch (err) {
 		next(err);
 	}
-}
+};
+
+exports.commentGetController = async (req, res, next) => {
+	try {
+		let profile = await Profile.findOne({ user: req.user._id });
+		let comments = await Comment.find({ post: { $in: profile.posts } })
+			.populate({
+				path: "post",
+				select: "title",
+			})
+			.populate({
+				path: "user",
+				select: "username profilePics",
+			})
+			.populate({
+				path: "replies.user",
+				select: "username profilePics",
+			});
+		res.render("pages/dashboard/comments", {
+			title: "My comments",
+			flashMessage: Flash.getMessage(req),
+			comments,
+		});
+	} catch (err) {
+		next(err);
+	}
+};

@@ -6,11 +6,13 @@ const {
 	createProfilePostController,
 	editProfileGetController,
 	editProfilePostController,
-	bookmarksGetController
+	bookmarksGetController,
+	commentGetController
 } = require("../controllers/dashboard.controller");
 const { isAuthenticated } = require("../middlewares/auth.middleware");
 
 router.get("/bookmarks", isAuthenticated, bookmarksGetController)
+router.get("/comments", isAuthenticated, commentGetController);
 
 router.get("/create-profile", isAuthenticated, createProfileGetController);
 router.post("/create-profile", isAuthenticated, profileValidator, createProfilePostController);

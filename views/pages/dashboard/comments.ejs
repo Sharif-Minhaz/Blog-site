@@ -1,0 +1,75 @@
+		<%- include("../../partials/head.ejs") %>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-md-2">
+					<%- include("../../partials/sidebar.ejs")  %>
+				</div>
+				<div class="col-md-10">
+					<div class="row my-container">
+						<div class="col-md-8 offset-md-2">
+							<div class="card card-body my-5">
+								<h5 class="py-4">My Recent Comments</h5>
+                                <div id="comment-holder">
+                                    <% if (comments.length === 0) { %> 
+                                        <p class="text-center text-muted">There is no comment</p>
+                                    <% } else { %> 
+                                        <% for(let comment of comments.reverse()) { %> 
+                                            <div class="media border pe-3">
+                                                <div class="sm-details">
+                                                    <a href="/author/<%= comment.user._id %> " >
+                                                        <img src="<%= comment.user.profilePics %>" class="rounded-circle mx-3 my-3" style="width: 49px; height: 49px;" alt="Profile_pic">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body my-3 w-100">
+                                                    <div class="w-100 d-flex justify-content-between">
+                                                        <a href="/author/<%= comment.user._id %>"><span><%= comment.user.username %></span> </a> 
+                                                        <span class="text-muted d-flex gap-1"> on post 
+                                                            <a href="/explorer/<%= comment.post._id %>"> <%= comment.post.title %></a>
+                                                            - 
+                                                            <%= moment(comment.createdAt) %> 
+                                                        </span>
+                                                    </div>
+                                                    <p><%= comment.body %> </p>
+                                                    <div class="replies w-100">
+                                                        <% if (comment.replies.length > 0) { %> 
+                                                            <% for (let reply of comment.replies) { %> 
+                                                                <div class="media mt-3">
+                                                                    <div class="sm-details">
+                                                                        <a href="/author/<%= reply.user._id %> ">
+                                                                            <img src="<%= reply.user.profilePics %>" class="align-self-start rounded-circle" style="width: 44px; height: 44px" alt="rep_profile">
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="media-body">
+                                                                        <a class="w-100 d-flex justify-content-between" href="/author/<%= reply.user._id %>">
+                                                                            <span><%= reply.user.username %></span>
+                                                                            <span class="text-muted d-flex">
+                                                                                <%= moment(reply.createAt) %> 
+                                                                            </span>
+                                                                        </a>
+                                                                        <p><%= reply.body %> </p>
+                                                                    </div>
+                                                                </div>
+                                                            <% } %> 
+                                                        <% } %> 
+                                                    </div>
+                                                    <div class="my-3 reply-base">
+                                                        <input type="text" class="form-control" placeholder="Press Enter to reply" name="reply" data-user="<%= user.username %> " data-comment="<%= comment._id %> ">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <% } %> 
+                                    <% } %> 
+                                </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		<%- include("../../partials/footer.ejs") %>
+        <script src="/scripts/comment.js"></script>
+
+	</body>
+</html>
