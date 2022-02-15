@@ -1,7 +1,7 @@
 const express = require("express");
 require("dotenv").config();
 const config = require("config");
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const session = require("express-session");
 const flash = require("connect-flash");
 const MongoDBStore = require("connect-mongodb-session")(session);
@@ -21,7 +21,7 @@ store.on("error", (err) => {
 });
 
 const middleware = [
-	morgan("dev"),
+	// morgan("dev"),
 	express.static("public"),
 	express.urlencoded({ extended: true }),
 	express.json(),

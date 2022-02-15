@@ -4,7 +4,7 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 const path = require("path");
 // dev dependencies
-const morgan = require("morgan");
+// const morgan = require("morgan");
 const chalk = require("chalk");
 // routes and middlewares
 const setMiddlewares = require("./middlewares/middlewares");
@@ -14,7 +14,7 @@ const setRoutes = require("./routes/routes");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-const { DB_CONNECTION_STRING } = process.env;
+const { DB_ADMIN, DB_PASSWORD, DB_ } = process.env;
 const PORT = process.env.PORT || 8080;
 
 // if (app.get("env").toLowerCase() === "development") {
@@ -41,9 +41,12 @@ app.use((error, req, res, next) => {
 });
 
 mongoose
-	.connect(DB_CONNECTION_STRING, {
-		useNewUrlParser: true,
-	})
+	.connect(
+		`mongodb+srv://${DB_ADMIN}:${DB_PASSWORD}@cluster0.h9bja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
+		{
+			useNewUrlParser: true,
+		}
+	)
 	.then(() => {
 		console.info(chalk.cyan("Connected to The Database"));
 		app.listen(PORT, () => {
