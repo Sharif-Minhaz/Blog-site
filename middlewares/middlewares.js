@@ -9,10 +9,10 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const { bindUserWithRequest } = require("./auth.middleware");
 const setLocals = require("./setLocals.middleware");
 
-const { DB_CONNECTION_STRING } = process.env;
+const { DB_ADMIN, DB_PASSWORD } = process.env;
 
 const store = new MongoDBStore({
-	uri: DB_CONNECTION_STRING,
+	uri: `mongodb+srv://${DB_ADMIN}:${DB_PASSWORD}@cluster0.h9bja.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`,
 	collection: "sessions",
 });
 // Catch errors

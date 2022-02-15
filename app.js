@@ -14,7 +14,7 @@ const setRoutes = require("./routes/routes");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-const { DB_ADMIN, DB_PASSWORD, DB_ } = process.env;
+const { DB_ADMIN, DB_PASSWORD } = process.env;
 const PORT = process.env.PORT || 8080;
 
 // if (app.get("env").toLowerCase() === "development") {
