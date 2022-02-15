@@ -1,12 +1,11 @@
 {
-	"name": "Blog-site",
+	"name": "blog-site",
 	"version": "1.0.0",
 	"description": "A multi user blog site for sharing blog contents.",
 	"main": "app.js",
 	"scripts": {
 		"start": "node app.js",
-		"dev": "nodemon app.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "nodemon app.js"
 	},
 	"keywords": [
 		"blogs, node-app, blog-site"

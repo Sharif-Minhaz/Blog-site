@@ -17,9 +17,9 @@ app.set("views", path.join(__dirname, "views"));
 const { DB_CONNECTION_STRING } = process.env;
 const PORT = process.env.PORT || 8080;
 
-if (app.get("env").toLowerCase() === "development") {
-	app.use(morgan("dev"));
-}
+// if (app.get("env").toLowerCase() === "development") {
+// 	app.use(morgan("dev"));
+// }
 
 // using routes from routes directory
 setMiddlewares(app);
